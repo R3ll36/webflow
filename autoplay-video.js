@@ -200,32 +200,36 @@
     let intersectionObserver = new IntersectionObserver((entries) => {
       for (let entry of entries) {
         let video = entry.target;
-        let isIntersecting = entry.isIntersecting;
+        let intersectionRatio = entry.intersectionRatio;
 
         if (!video.getAttribute("data-controls")) {
-          if (isIntersecting) {
-            video.play();
-          } else {
-            video.pause();
+          if (intersectionRatio > 0) { // Start playing when the video enters the viewport
+            if (video.paused) {
+              video.play();
+            }
           }
         }
 
-        videoMap.set(video, isIntersecting);
+        videoMap.set(video, intersectionRatio > 0); // Store whether the video is visible in the viewport
       }
-    }, {});
+    }, { threshold: 0.5 }); // Set the threshold to 50% (you can adjust this value)
 
     for (let video of autoPlayVideos) {
       video.autoplay = false;
-      videoMap.set(video, null);
+      videoMap.set(video, false);
       intersectionObserver.observe(video);
     }
 
     let visibilityChangeListener = b(document, "visibilitychange", () => {
       for (let [video, isIntersecting] of videoMap) {
         if (document.hidden || !isIntersecting) {
-          video.pause();
+          if (!video.paused) { // Pause the video when the document is hidden or when it goes out of view
+            video.pause();
+          }
         } else {
-          video.play();
+          if (video.paused) { // Resume playing when the document becomes visible or when it comes into view
+            video.play();
+          }
         }
       }
     });
