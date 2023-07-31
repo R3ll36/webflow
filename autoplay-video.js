@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 (() => {
-  var a = 'fs-attributes';
-  var m = 'autovideo';
-  var E = 'cmsattribute';
+  var a = "fs-attributes";
+  var m = "autovideo";
+  var E = "cmsattribute";
 
   var y = async (...o) => {
     var i;
@@ -26,12 +26,16 @@
   function x(o, e, i) {
     var t;
     let s = window.fsAttributes[o];
-    return (s.destroy = i || l), (t = s.resolve) == null || t.call(s, e), e;
+    return (
+      (s.destroy = i || l),
+      (t = s.resolve) == null || t.call(s, e),
+      e
+    );
   }
 
   var g = `${a}-support`;
   var B =
-    'https://cdn.jsdelivr.net/npm/@finsweet/attributes-support@1/support.js';
+    "https://cdn.jsdelivr.net/npm/@finsweet/attributes-support@1/support.js";
 
   var R = async () => {
     let { fsAttributes: o, location: e } = window;
@@ -40,13 +44,13 @@
     o.support || (o.support = {});
     let { support: t } = o;
 
-    if (!i.includes('webflow.io') || !s.has(g)) return !1;
+    if (!i.includes("webflow.io") || !s.has(g)) return !1;
 
     if (t.import) return t.import;
 
     try {
       t.import = new Promise((r, n) => {
-        let c = document.createElement('script');
+        let c = document.createElement("script");
         c.src = B;
         c.onload = () => r(!0);
         c.onerror = n;
@@ -68,30 +72,26 @@
       if (!t) return `[${c}]`;
 
       let d = A == null ? void 0 : A[t];
-      typeof d == 'string'
-        ? (u = d)
-        : (u = d(r && 'instanceIndex' in r ? r.instanceIndex : void 0));
+      typeof d == "string" ? (u = d) : (u = d(r && "instanceIndex" in r ? r.instanceIndex : void 0));
 
-      let T = r && r.caseInsensitive ? 'i' : '';
+      let T = r && r.caseInsensitive ? "i" : "";
       if (!(r != null && r.operator)) return `[${c}="${u}"${T}]`;
 
       switch (r.operator) {
-        case 'prefixed':
+        case "prefixed":
           return `[${c}^="${u}"${T}]`;
-        case 'suffixed':
+        case "suffixed":
           return `[${c}$="${u}"${T}]`;
-        case 'contains':
+        case "contains":
           return `[${c}*="${u}"${T}]`;
       }
     };
 
     function i(s, t) {
-      let r = e('element', s, t),
+      let r = e("element", s, t),
         n = (t == null ? void 0 : t.scope) || document;
 
-      return t != null && t.all
-        ? [...n.querySelectorAll(r)]
-        : n.querySelector(r);
+      return t != null && t.all ? [...n.querySelectorAll(r)] : n.querySelector(r);
     }
 
     return [e, i];
@@ -100,7 +100,7 @@
   var p = {
     preventLoad: { key: `${a}-preventload` },
     debugMode: { key: `${a}-debug` },
-    src: { key: 'src', values: { finsweet: '@finsweet/attributes' } },
+    src: { key: "src", values: { finsweet: "@finsweet/attributes" } },
     dev: { key: `${a}-dev` },
   };
 
@@ -112,10 +112,7 @@
 
     if (!e) return { attributes: i, preventsLoad: !1 };
 
-    let t = {
-      preventsLoad: typeof e.getAttribute(p.preventLoad.key) == 'string',
-      attributes: i,
-    };
+    let t = { preventsLoad: typeof e.getAttribute(p.preventLoad.key) == "string", attributes: i };
 
     for (let r in o) {
       let n = e.getAttribute(o[r]);
@@ -129,13 +126,11 @@
     var c;
     V();
     (c = window.fsAttributes)[e] || (c[e] = {});
-    let { preventsLoad: t, attributes: r } = _(o);
+    let { preventsLoad: t, attributes: r } = _(
+      o
+    );
     var n = window.fsAttributes[e];
-    (n.version = i),
-      (n.init = s),
-      t ||
-        (window.Webflow || (window.Webflow = []),
-        window.Webflow.push(() => s(r)));
+    (n.version = i), (n.init = s), t || ((window.Webflow || (window.Webflow = [])), window.Webflow.push(() => s(r)));
   };
 
   var V = () => {
@@ -145,21 +140,14 @@
       return;
     }
 
-    let e = {
-      cms: {},
-      push(...i) {
-        var s, t;
+    let e = { cms: {}, push(...i) {
+      var s, t;
 
-        for (let [r, n] of i)
-          (t = (s = this[r]) == null ? void 0 : s.loading) == null || t.then(n);
-      },
-      destroy() {
-        var i, s;
-        for (let t of o)
-          (s = (i = window.fsAttributes[t]) == null ? void 0 : i.destroy) ==
-            null || s.call(i);
-      },
-    };
+      for (let [r, n] of i) (t = (s = this[r]) == null ? void 0 : s.loading) == null || t.then(n);
+    }, destroy() {
+      var i, s;
+      for (let t of o) (s = (i = window.fsAttributes[t]) == null ? void 0 : i.destroy) == null || s.call(i);
+    } };
 
     S(e, o);
     C(e);
@@ -169,19 +157,16 @@
   };
 
   var h = () => {
-    let o = f('src', 'finsweet', { operator: 'contains' }),
-      e = f('dev');
-    return [...document.querySelectorAll(`script${o}, script${e}`)].reduce(
-      (t, r) => {
-        var c;
-        let n =
-          r.getAttribute(p.dev.key) ||
-          ((c = r.src.match(/[\w-. ]+(?=(\.js)$)/)) == null ? void 0 : c[0]);
+    let o = f("src", "finsweet", { operator: "contains" }),
+      e = f("dev");
+    return [
+      ...document.querySelectorAll(`script${o}, script${e}`)
+    ].reduce((t, r) => {
+      var c;
+      let n = r.getAttribute(p.dev.key) || ((c = r.src.match(/[\w-. ]+(?=(\.js)$)/)) == null ? void 0 : c[0]);
 
-        return n && !t.includes(n) && t.push(n), t;
-      },
-      []
-    );
+      return n && !t.includes(n) && t.push(n), t;
+    }, []);
   };
 
   var S = (o, e) => {
@@ -203,46 +188,52 @@
     o.push(...e);
   };
 
-  var w = '1.5.0';
+  var w = "1.5.0";
 
   var U = async () => {
     await y(E);
 
-    let autoPlayVideos = document.querySelectorAll(
-      "video:not([data-controls='true'])"
-    );
+    let autoPlayVideos = document.querySelectorAll("video:not([data-controls='true'])");
     if (!autoPlayVideos.length) return;
 
     let videoMap = new Map();
     let intersectionObserver = new IntersectionObserver((entries) => {
       for (let entry of entries) {
         let video = entry.target;
-        let isIntersecting = entry.isIntersecting;
+        let intersectionRatio = entry.intersectionRatio;
 
-        if (!video.getAttribute('data-controls')) {
-          if (isIntersecting) {
-            video.play();
+        if (!video.getAttribute("data-controls")) {
+          if (intersectionRatio >= 0.1) { // Play the video when it is 10% in the view
+            if (video.paused) { // Check if the video is paused when it comes into view
+              video.play();
+            }
           } else {
-            video.pause();
+            if (!video.paused) { // Check if the video is playing when it goes out of view
+              video.pause();
+            }
           }
         }
 
-        videoMap.set(video, isIntersecting);
+        videoMap.set(video, intersectionRatio >= 0.1); // Set the state based on the 10% threshold
       }
-    }, {});
+    }, { threshold: 0.1 }); // Set the threshold to 10%
 
     for (let video of autoPlayVideos) {
       video.autoplay = false;
-      videoMap.set(video, null);
+      videoMap.set(video, false);
       intersectionObserver.observe(video);
     }
 
-    let visibilityChangeListener = b(document, 'visibilitychange', () => {
+    let visibilityChangeListener = b(document, "visibilitychange", () => {
       for (let [video, isIntersecting] of videoMap) {
         if (document.hidden || !isIntersecting) {
-          video.pause();
+          if (!video.paused) { // Check if the video is playing when the document is hidden or when it goes out of view
+            video.pause();
+          }
         } else {
-          video.play();
+          if (video.paused) { // Check if the video is paused when the document becomes visible or when it comes into view
+            video.play();
+          }
         }
       }
     });
