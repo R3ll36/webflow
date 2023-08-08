@@ -193,7 +193,7 @@
   var U = async () => {
     await y(E);
 
-    let autoPlayVideos = document.querySelectorAll("video:not([data-controls='true'])");
+    let autoPlayVideos = document.querySelectorAll("video[data-controls='true']");
     if (!autoPlayVideos.length) return;
 
     let videoMap = new Map();
@@ -202,11 +202,13 @@
         let video = entry.target;
         let intersectionRatio = entry.intersectionRatio;
 
-        if (!video.getAttribute("data-controls")) {
-          if (intersectionRatio > 0) { // Start playing when the video enters the viewport
-            if (video.paused) {
-              video.play();
-            }
+        if (intersectionRatio > 0) { // Start playing when the video enters the viewport
+          if (!video.paused) {
+            video.play();
+          }
+        } else {
+          if (!video.paused) { // Pause the video when the video scrolls out of view
+            video.pause();
           }
         }
 
@@ -215,7 +217,6 @@
     }, { threshold: 0.5 }); // Set the threshold to 50% (you can adjust this value)
 
     for (let video of autoPlayVideos) {
-      video.autoplay = false;
       videoMap.set(video, false);
       intersectionObserver.observe(video);
     }
