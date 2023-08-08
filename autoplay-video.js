@@ -193,8 +193,8 @@
   var U = async () => {
     await y(E);
 
-    let autoPlayVideos = document.querySelectorAll("video[data-controls='true']");
-    if (!autoPlayVideos.length) return;
+    let videosWithButtons = document.querySelectorAll("video[data-controls='true']");
+    if (!videosWithButtons.length) return;
 
     let videoMap = new Map();
     let intersectionObserver = new IntersectionObserver((entries) => {
@@ -202,21 +202,15 @@
         let video = entry.target;
         let intersectionRatio = entry.intersectionRatio;
 
-        if (intersectionRatio > 0) { // Start playing when the video enters the viewport
-          if (!video.paused) {
-            video.play();
-          }
-        } else {
-          if (!video.paused) { // Pause the video when the video scrolls out of view
-            video.pause();
-          }
+        if (!video.paused && intersectionRatio <= 0) {
+          video.pause(); // Pause the video when it's out of view
         }
 
         videoMap.set(video, intersectionRatio > 0); // Store whether the video is visible in the viewport
       }
     }, { threshold: 0.5 }); // Set the threshold to 50% (you can adjust this value)
 
-    for (let video of autoPlayVideos) {
+    for (let video of videosWithButtons) {
       videoMap.set(video, false);
       intersectionObserver.observe(video);
     }
@@ -224,12 +218,12 @@
     let visibilityChangeListener = b(document, "visibilitychange", () => {
       for (let [video, isIntersecting] of videoMap) {
         if (document.hidden || !isIntersecting) {
-          if (!video.paused) { // Pause the video when the document is hidden or when it goes out of view
+          if (!video.paused) {
             video.pause();
           }
         } else {
-          if (video.paused) { // Resume playing when the document becomes visible or when it comes into view
-            video.play();
+          if (!video.paused && videoMap.get(video)) {
+            video.play(); // Resume playing when the document becomes visible and the video is in view
           }
         }
       }
